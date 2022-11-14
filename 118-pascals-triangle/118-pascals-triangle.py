@@ -5,6 +5,6 @@ class Solution:
             row = [1] * i
             if i > 2:
                 for j in range(1, i - 1):
-                    row[j] = result[i - 2][j] + result[i - 2][j - 1]
+                    row[j] = result[-1][j] + result[-1][j - 1]
             result.append(row)
         return result
