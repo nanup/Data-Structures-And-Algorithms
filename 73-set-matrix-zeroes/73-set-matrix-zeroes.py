@@ -3,25 +3,27 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        for i in range(len(matrix)):
-            for j in range(len(matrix[0])):
-                currNum = matrix[i][j]
-                if currNum == 0:
-                    for m in range(len(matrix)):
-                        if matrix[m][j] == 0:
-                            continue
-                        if m <= i:
-                            matrix[m][j] = 0
+        m = len(matrix)
+        n = len(matrix[0])
+        
+        for row in range(m):
+            for col in range(n):
+                num = matrix[row][col]
+                if not num:
+                    for i in range(n):
+                        if i <= col:
+                            matrix[row][i] = 0
                         else:
-                            matrix[m][j] = "0"
-                    for n in range(len(matrix[0])):
-                        if matrix[i][n] == 0:
-                            continue
-                        if n <= j:
-                            matrix[i][n] = 0
+                            if not matrix[row][i]:
+                                continue
+                            matrix[row][i] = "0"
+                    for j in range(m):
+                        if j <= row:
+                            matrix[j][col] = 0
                         else:
-                            matrix[i][n] = "0"
-                elif currNum == "0":
-                    currNum = 0
-                    
-                        
+                            if not matrix[j][col]:
+                                continue
+                            matrix[j][col] = "0"
+                if num == "0":
+                    num = 0
+                
