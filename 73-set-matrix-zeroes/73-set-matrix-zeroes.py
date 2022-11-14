@@ -3,27 +3,23 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        m = len(matrix)
-        n = len(matrix[0])
+        rows = len(matrix)
+        cols = len(matrix[0])
+        firstColZero = 0
         
-        for row in range(m):
-            for col in range(n):
-                num = matrix[row][col]
-                if not num:
-                    for i in range(n):
-                        if i <= col:
-                            matrix[row][i] = 0
-                        else:
-                            if not matrix[row][i]:
-                                continue
-                            matrix[row][i] = "0"
-                    for j in range(m):
-                        if j <= row:
-                            matrix[j][col] = 0
-                        else:
-                            if not matrix[j][col]:
-                                continue
-                            matrix[j][col] = "0"
-                if num == "0":
-                    num = 0
+        #first iteration (precompute)
+        for i in range(rows):
+            if matrix[i][0] == 0:
+                firstColZero = 1
+            for j in range(1, cols):
+                if matrix[i][j] == 0:
+                    matrix[i][0] = matrix[0][j] = 0
+        
+        #second iteration
+        for i in range(rows - 1, -1, -1):
+            for j in range(cols - 1, 0, -1):
+                if matrix[i][0] == 0 or matrix[0][j] == 0:
+                    matrix[i][j] = 0
+            if firstColZero:
+                matrix[i][0] = 0
                 
