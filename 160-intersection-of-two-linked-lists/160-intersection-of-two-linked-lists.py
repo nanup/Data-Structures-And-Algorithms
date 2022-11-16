@@ -16,4 +16,6 @@ class Solution:
                 d2 = headA
             else:
                 d2 = d2.next
+        if not d1:
+            print(d1, d2)
         return d1
