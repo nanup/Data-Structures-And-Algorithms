@@ -8,24 +8,17 @@ class Solution:
         dummy = ListNode()
         tail = dummy
         carry = 0
-        while l1 or l2:
-            a = l1.val if l1 else 0
-            b = l2.val if l2 else 0
-            num = a + b + carry
-            digit, carry = Solution.nextDigit(self, num)
-            tail.next = ListNode(digit)
-            tail = tail.next
+        while l1 or l2 or carry == 1:
+            num = 0
             if l1:
+                num += l1.val
                 l1 = l1.next
             if l2:
+                num += l2.val
                 l2 = l2.next
-        if carry:
-            tail.next = ListNode(carry)
+            num += carry
+            carry = num // 10
+            tail.next = ListNode(num % 10)
+            tail = tail.next
         return dummy.next
-        
-        
-    def nextDigit(self, num):
-        digit = num % 10
-        carry = num // 10
-        return (digit, carry)
         
