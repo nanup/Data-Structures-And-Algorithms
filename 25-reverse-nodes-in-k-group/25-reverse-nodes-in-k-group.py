@@ -5,26 +5,33 @@
 #         self.next = next
 class Solution:
     def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        if not head or not head.next: return head
-        listLength = Solution.findListLength(self, head)
-        dummy = ListNode()
-        prev = dummy
-        dummy.next = head
-        while listLength >= k:
-            curr = prev.next
-            next = curr.next
-            for _ in range(k - 1):
-                curr.next = next.next
-                next.next = prev.next
-                prev.next = next
+        if not head or not head.next or k == 1:
+            return head
+        prev = None
+        curr = head
+        while curr and curr.next:
+            firstNode = prev
+            lastNode = curr
+            i = 0
+            while curr and i < k:
+                prev = curr
+                curr = curr.next
+                i += 1
+            if i != k:
+                break
+            curr = lastNode
+            prev = firstNode
+            i = 0
+            while curr and i < k:
                 next = curr.next
-            prev = curr
-            listLength -= k
-        return dummy.next
-        
-    def findListLength(self, head: Optional[ListNode]) -> int:
-        length = 0
-        while head:
-            head = head.next
-            length += 1
-        return length
+                curr.next = prev
+                prev = curr
+                curr = next
+                i += 1
+            if firstNode:
+                firstNode.next = prev
+            else:
+                head = prev
+            lastNode.next = curr
+            prev = lastNode
+        return head
