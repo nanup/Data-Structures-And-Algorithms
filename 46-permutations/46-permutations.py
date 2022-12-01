@@ -1,17 +1,21 @@
+from collections import deque
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        permutations = []
+        result = []
+        permutations = deque()
+        permutations.append([])
         
-        def permute(permutation):
-            if len(permutation) == len(nums):
-                permutations.append(permutation.copy())
-                return
-            
-            for num in nums:
-                if num not in permutation:
-                    permutation.append(num)
-                    permute(permutation)
-                    permutation.pop()
+        for num in nums:
+            for _ in range(len(permutations)):
+                oldPermutation = permutations.popleft()
                 
-        permute([])
-        return permutations
+                for j in range(len(oldPermutation) + 1):
+                    newPermutation = list(oldPermutation)
+                    newPermutation.insert(j, num)
+                    
+                    if len(newPermutation) == len(nums):
+                        result.append(newPermutation)
+                    else:
+                        permutations.append(newPermutation)
+                        
+        return result
