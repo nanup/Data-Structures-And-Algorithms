@@ -1,7 +1,6 @@
 class Solution:
     def getPermutation(self, n: int, k: int) -> str:
-        permutation = [0] * n
-        currentIndex = 0
+        permutation = []
         k = k - 1 #modifying for 0 based indexing
         
         factorial = 1
@@ -12,18 +11,17 @@ class Solution:
             numbers.append(i)
         numbers.append(n)
         
-        def permute(factorial, k, currentIndex):
-            permutation[currentIndex] = str(numbers[k // factorial])
+        def permute(factorial, k):
+            permutation.append(str(numbers[k // factorial]))
             del numbers[k // factorial]
                         
             if not len(numbers):
                 return
             
             k = k % factorial
-            currentIndex += 1
             factorial = factorial // len(numbers)
             
-            permute(factorial, k, currentIndex)
+            permute(factorial, k)
             
-        permute(factorial, k, 0)
+        permute(factorial, k)
         return "".join(permutation)
