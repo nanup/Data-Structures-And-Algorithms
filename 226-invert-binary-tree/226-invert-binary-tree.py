@@ -1,3 +1,5 @@
+from collections import deque
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -6,13 +8,18 @@
 #         self.right = right
 class Solution:
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        Solution.recurse(self, root)
+        stack = deque()
+        
+        stack.append(root)
+        
+        while stack:
+            node = stack.pop()
+            
+            if node:
+                node.left, node.right = node.right, node.left
+                if node.left:
+                    stack.appendleft(node.left)
+                if node.right:
+                    stack.appendleft(node.right)
+            
         return root
-        
-    def recurse(self, node: Optional[TreeNode]) -> Optional[TreeNode]:
-        if not node or (not node.right and not node.left):
-            return
-        node.right, node.left = node.left, node.right
-        
-        Solution.recurse(self, node.right)
-        Solution.recurse(self, node.left)
