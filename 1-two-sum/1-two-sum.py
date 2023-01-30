@@ -5,6 +5,6 @@ class Solution:
         for i in range(len(nums)):
             num = nums[i]
             
-            if num in dict:
-                return [i, dict[num]]
-            dict[target - num] = i
+            if target - num in dict:
+                return [i, dict[target - num]]
+            dict[num] = i
