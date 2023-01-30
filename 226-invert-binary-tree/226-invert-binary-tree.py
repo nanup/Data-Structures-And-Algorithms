@@ -17,9 +17,7 @@ class Solution:
             
             if node:
                 node.left, node.right = node.right, node.left
-                if node.left:
-                    stack.appendleft(node.left)
-                if node.right:
-                    stack.appendleft(node.right)
+                stack.appendleft(node.left)
+                stack.appendleft(node.right)
             
         return root
