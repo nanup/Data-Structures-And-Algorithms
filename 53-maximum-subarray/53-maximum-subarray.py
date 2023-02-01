@@ -1,21 +1,20 @@
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        maxSum = -math.inf
-        currSum = 0
+        maxSum = nums[0]
+        currSum = nums[0]
         
-        pointer = 0
-        
-        while pointer < len(nums):
-            currSum += nums[pointer]
+        def recurse(i, currSum, maxSum):
+            if i == len(nums):
+                return maxSum
             
-            if currSum < 0:
-                currSum = 0
+            if nums[i] > nums[i] + currSum:
+                currSum = nums[i]
+                maxSum = max(maxSum, nums[i])
+            else:
+                currSum += nums[i]
+                maxSum = max(maxSum, currSum)
+                
+            return recurse(i + 1, currSum, maxSum)
             
-            maxSum = max(maxSum, currSum)
-            
-            pointer += 1
-            
-        if not maxSum:
-            return max(nums)
-        
+        maxSum = recurse(1, currSum, maxSum)
         return maxSum
