@@ -1,28 +1,28 @@
-from collections import deque
-
 class Solution:
-    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
-        visited = set()
-        
-        result = mat.copy()
-        
-        q = deque()
-        
-        for i in range(len(mat)):
-            for j in range(len(mat[0])):
-                if mat[i][j] == 0:
-                    q.appendleft((i, j))
-                    visited.add((i, j))
-                    
-        while q:
-            i, j = q.pop()
-            
-            for diff in [(0,1), (0, -1), (1, 0), (-1, 0)]:
-                x, y = i + diff[0], j + diff[1]
-                
-                if x >= 0 and x < len(mat) and y >= 0 and y < len(mat[0]) and (x, y) not in visited:
-                    result[x][y] = result[i][j] + 1
-                    visited.add((x, y))
-                    q.appendleft((x, y))
-        
-        return result
+    def updateMatrix(self, matrix):
+        rows = len(matrix)
+        if rows == 0:
+            return matrix
+        cols = len(matrix[0])
+        dist = [[float('inf') - 100000 for _ in range(cols)] for _ in range(rows)]
+
+        # First pass: check for left and top
+        for i in range(rows):
+            for j in range(cols):
+                if matrix[i][j] == 0:
+                    dist[i][j] = 0
+                else:
+                    if i > 0:
+                        dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1)
+                    if j > 0:
+                        dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1)
+
+        # Second pass: check for bottom and right
+        for i in range(rows - 1, -1, -1):
+            for j in range(cols - 1, -1, -1):
+                if i < rows - 1:
+                    dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1)
+                if j < cols - 1:
+                    dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1)
+
+        return dist
