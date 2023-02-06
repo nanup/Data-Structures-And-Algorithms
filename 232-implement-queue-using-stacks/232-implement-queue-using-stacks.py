@@ -13,7 +13,9 @@ class MyQueue:
 
     def peek(self) -> int:
         self.move()
-        return self.outStack[-1]
+        peek = self.outStack.pop()
+        self.outStack.append(peek)
+        return peek
 
     def empty(self) -> bool:
         return not (self.inStack or self.outStack)
