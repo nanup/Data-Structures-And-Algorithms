@@ -1,18 +1,20 @@
 class Solution:
     def merge(self, intervals: List[List[int]]) -> List[List[int]]:
-        result = []
+        mergedIntervals = []
+        
         intervals.sort()
+        
         start, end = 0, 1
-        intStart = intervals[0][start]
-        intEnd = intervals[0][end]
+        
+        dummyStart, dummyEnd = intervals[0][start], intervals[0][end]
+        
         for interval in intervals:
-            if interval[start] <= intEnd:
-                intStart = min(interval[start], intStart)
-                intEnd = max(interval[end], intEnd)
-            else:
-                result.append([intStart, intEnd])
-                intStart = interval[start]
-                intEnd = interval[end]
-        result.append([intStart, intEnd])
-        return result
+          if interval[start] <= dummyEnd:
+            dummyEnd = max(dummyEnd, interval[end])
+          else:
+            mergedIntervals.append([dummyStart, dummyEnd])
+            dummyStart, dummyEnd = interval[start], interval[end]
             
+        mergedIntervals.append([dummyStart, dummyEnd])
+        
+        return mergedIntervals
