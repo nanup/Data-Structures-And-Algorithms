@@ -1,21 +1,28 @@
 class Solution:
   def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
-    rows, cols = len(matrix), len(matrix[0])
+    #each row is sorted in ascending order
+    #the first integer of each row is greater than the last integer of the previous row
     
-    left, right = 0, cols - 1
-    row = 0
+    #o(log(m * n))
     
-    while left <= right and row < rows:
-      mid = (left + right) // 2
+    rows = len(matrix)
+    cols = len(matrix[0])
+    
+    first, last = 0, rows * cols - 1
+    
+    while first <= last :
+      mid = (first + last) // 2
       
-      if target == matrix[row][mid]:
+      row = mid // cols
+      col = mid % cols
+      
+      num = matrix[row][col]
+      
+      if num == target:
         return True
-      elif target > matrix[row][mid]:
-        if target > matrix[row][cols - 1]:
-          row += 1
-        else:
-          left = mid + 1
+      elif num < target:
+        first = mid + 1
       else:
-        right = mid - 1
-    
+        last = mid - 1
+        
     return False
